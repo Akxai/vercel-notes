@@ -17,47 +17,46 @@ app.use(
   })
 );
 
-// mongoose.connect(process.env.LINK, {
-//   useNewUrlParser: true,
-// });
-
-// const querySchema = new mongoose.Schema({
-//   email: {
-//     type: String,
-//     required: true,
-//   },
-//   message: {
-//     type: String,
-//     required: true,
-//   },
-// });
-
-// const Message = mongoose.model("Message", querySchema);
-
-app.get("/", function (req, res) {
-  //   res.render("index");
-  res.send("Hello");
+mongoose.connect(process.env.LINK, {
+  useNewUrlParser: true,
 });
 
-// app.get("/query", function(req, res) {
-//   res.render("query");
-// })
+const querySchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+  },
+  message: {
+    type: String,
+    required: true,
+  },
+});
 
-// app.post("/query", function(req, res) {
-//   const query1 = new Message({
-//     email: req.body.email,
-//     message: req.body.name
-//   });
-//   query1.save();
-//   res.redirect("/");
-// });
+const Message = mongoose.model("Message", querySchema);
 
-// app.get("/error", function(req, res) {
-//   res.render("error");
-// })
-// app.post("/error", function(req, res) {
-//   res.redirect("/");
-// })
+app.get("/", function (req, res) {
+  res.render("index");
+});
+
+app.get("/query", function (req, res) {
+  res.render("query");
+});
+
+app.post("/query", function (req, res) {
+  const query1 = new Message({
+    email: req.body.email,
+    message: req.body.name,
+  });
+  query1.save();
+  res.redirect("/");
+});
+
+app.get("/error", function (req, res) {
+  res.render("error");
+});
+app.post("/error", function (req, res) {
+  res.redirect("/");
+});
 
 app.listen(process.env.PORT || "3000", function () {
   console.log("server is running on port 3000");
